@@ -33,16 +33,32 @@ class PhoneNumbers {
     static String POST_OFFICE = "tel:250363-2176";
     static String CLOTHING_STORES = "tel:2503634947";
 
-    public ArrayList<String[]> GlobalPhoneList;
 
+    public ArrayList<String[]> YJetty = new ArrayList<>();
+    public ArrayList<String[]> HealthCare = new ArrayList<>();
+    public ArrayList<String[]> BaseServices = new ArrayList<>();
 
     PhoneNumbers(){
-        GlobalPhoneList.add(HMCS_BRANDON);
+        YJetty.add(new String[]{"HMCS_BRANDON",HMCS_BRANDON});
+        YJetty.add(new String[]{"HMCS_NANAIMO",HMCS_NANAIMO});
+        YJetty.add(new String[]{"HMCS_WHITEHORSE",HMCS_WHITEHORSE});
+        YJetty.add(new String[]{"HMCS_YELLOWKNIFE",HMCS_YELLOWKNIFE});
+        YJetty.add(new String[]{"HMCS_EDMONTON",HMCS_EDMONTON});
+        YJetty.add(new String[]{"HMCS_SASKATOON",HMCS_SASKATOON});
 
+        HealthCare.add(new String[]{"Pharmacy Front Desk",PHARMACY_FRONT_DESK});
+        HealthCare.add(new String[]{"Pharmacy (MIR)",PHARMACY_MIR});
+        HealthCare.add(new String[]{"Medical",MEDICAL});
+        HealthCare.add(new String[]{"CDU 1",CDU1});
+        HealthCare.add(new String[]{"CDU 2",CDU2});
+        HealthCare.add(new String[]{"CDU 3",CDU3});
 
-        GlobalPhoneList.add(HMCS_EDMONTON);
-        GlobalPhoneList.add(HMCS_SASKATOON);
-        GlobalPhoneList.add();
+        BaseServices.add(new String[]{"QHM",QHM});
+        BaseServices.add(new String[]{"NRCC (Main)",NRCC_MAIN});
+        BaseServices.add(new String[]{"NRCC (Pay)",NRCC_PAY});
+        BaseServices.add(new String[]{"Base Taxi",BASE_TAXI});
+        BaseServices.add(new String[]{"Post Office",POST_OFFICE});
+        BaseServices.add(new String[]{"Clothing Stores",CLOTHING_STORES});
     }
 
 
