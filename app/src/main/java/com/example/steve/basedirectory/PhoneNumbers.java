@@ -39,12 +39,12 @@ class PhoneNumbers {
     public ArrayList<String[]> BaseServices = new ArrayList<>();
 
     PhoneNumbers(){
-        YJetty.add(new String[]{"HMCS_BRANDON",HMCS_BRANDON});
-        YJetty.add(new String[]{"HMCS_NANAIMO",HMCS_NANAIMO});
-        YJetty.add(new String[]{"HMCS_WHITEHORSE",HMCS_WHITEHORSE});
-        YJetty.add(new String[]{"HMCS_YELLOWKNIFE",HMCS_YELLOWKNIFE});
-        YJetty.add(new String[]{"HMCS_EDMONTON",HMCS_EDMONTON});
-        YJetty.add(new String[]{"HMCS_SASKATOON",HMCS_SASKATOON});
+        YJetty.add(new String[]{"HMCS BRANDON",HMCS_BRANDON});
+        YJetty.add(new String[]{"HMCS NANAIMO",HMCS_NANAIMO});
+        YJetty.add(new String[]{"HMCS WHITEHORSE",HMCS_WHITEHORSE});
+        YJetty.add(new String[]{"HMCS YELLOWKNIFE",HMCS_YELLOWKNIFE});
+        YJetty.add(new String[]{"HMCS EDMONTON",HMCS_EDMONTON});
+        YJetty.add(new String[]{"HMCS SASKATOON",HMCS_SASKATOON});
 
         HealthCare.add(new String[]{"Pharmacy Front Desk",PHARMACY_FRONT_DESK});
         HealthCare.add(new String[]{"Pharmacy (MIR)",PHARMACY_MIR});

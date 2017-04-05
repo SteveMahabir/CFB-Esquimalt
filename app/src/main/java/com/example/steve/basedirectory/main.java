@@ -114,8 +114,6 @@ public class main extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
 
                 // Commit Shared Preferences
-
-
                 SharedPreferences sharedData = getSharedPreferences("default", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedData.edit();
 
@@ -124,8 +122,6 @@ public class main extends AppCompatActivity {
 
                 Intent appInfo = new Intent(main.this, SubUnitActivity.class);
                 startActivity(appInfo);
-
-
 
             }
         });

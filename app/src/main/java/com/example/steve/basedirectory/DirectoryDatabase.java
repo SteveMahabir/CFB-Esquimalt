@@ -117,17 +117,12 @@ public class DirectoryDatabase {
         try {
 
             //
+
             Cursor mCursor =
                     db.query(DATABASE_TABLE, new String[]{KEY_ROWID,
-                                    KEY_UNIT, KEY_SUB_UNIT, KEY_PHONE}, null, null,
+                                    KEY_UNIT, KEY_SUB_UNIT, KEY_PHONE}, KEY_SUB_UNIT + "= '" + units + "'", null,
                             null, null, null, null);
 
-            /*
-            Cursor mCursor =
-                    db.query(DATABASE_TABLE, new String[]{KEY_ROWID,
-                                    KEY_UNIT, KEY_SUB_UNIT, KEY_PHONE}, KEY_SUB_UNIT + "=" + units, null,
-                            null, null, null, null);
-                            */
             if (mCursor != null) {
                 mCursor.moveToFirst();
             }
@@ -169,6 +164,9 @@ public class DirectoryDatabase {
 
     public void Populate(){
         open();
+
+        db.execSQL("DELETE FROM units");
+
         PhoneNumbers p = new PhoneNumbers();
 
         for (String[] yjetty : p.YJetty ) {
