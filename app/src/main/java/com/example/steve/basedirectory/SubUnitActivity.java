@@ -61,15 +61,17 @@ public class SubUnitActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_2,
                 units);
 
+        //todo: Make the adapter work with simple_list_item_2 (two layers of text!)
+
         // Link units to the listview
         lv.setAdapter(arrayAdapter);
-
 
         // When a user selects a unit, call the unit
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+
                 // Launch Phone Number
                 Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(subUnitsPhoneNumbers.get(position).toString()));
                 startActivity(i);
