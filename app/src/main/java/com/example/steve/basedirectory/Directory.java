@@ -3,13 +3,13 @@ package com.example.steve.basedirectory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Steve on 29/03/2017.
- */
 
+// Middle Class used to populate the Initial Database
 class Directory {
 
     /*                  MCDV's                  */
+    public ArrayList<String[]> YJetty = new ArrayList<>();
+    static Catagory YJetty = new Catagory("YJetty", 1);
     static String HMCS_BRANDON = "tel:2503637472";
     static String HMCS_NANAIMO = "tel:2503635712";
     static String HMCS_WHITEHORSE = "tel:2503631040";
@@ -18,6 +18,7 @@ class Directory {
     static String HMCS_SASKATOON = "tel:2503637459";
 
     /*                  Health Care             */
+
     static String PHARMACY_FRONT_DESK =  "tel:2503634476";
     static String PHARMACY_MIR =  "tel:2503634143";
     static String MEDICAL = "tel:2503635641";
@@ -26,6 +27,7 @@ class Directory {
     static String CDU3 = "tel:2503635646";
 
     /*              Base Services               */
+
     static String QHM = "tel:2503632160";
     static String NRCC_MAIN = "tel:2503634195";
     static String NRCC_PAY = "tel:2503634171";
@@ -34,7 +36,7 @@ class Directory {
     static String CLOTHING_STORES = "tel:2503634947";
 
 
-    public ArrayList<String[]> YJetty = new ArrayList<>();
+
     public ArrayList<String[]> HealthCare = new ArrayList<>();
     public ArrayList<String[]> BaseServices = new ArrayList<>();
 
