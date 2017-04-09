@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Units extends AppCompatActivity {
+public class UnitsActivity extends AppCompatActivity {
 
     // Data Members
     ListView lv;
