@@ -19,7 +19,8 @@ public class UnitsActivity extends AppCompatActivity {
 
     // Data Members
     ListView lv;
-    private DirectoryDatabase db;
+    DirectoryDatabase db;
+    ArrayList<Unit> units;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,34 +37,19 @@ public class UnitsActivity extends AppCompatActivity {
         final String subunit_name = requested_units.getString("unit", null);
 
         // Create Lists for units and phone number lists
-        final ArrayList<String> units = new ArrayList<>();
-        final ArrayList<String> subUnitsPhoneNumbers = new ArrayList<>();
 
-        // Get and Show All SubUnits
-        db.open();
-        Cursor c = db.getAllSubunitsByUnits(subunit_name);
-
-        // Populate ArrayLists
-        if (c.moveToFirst())
-        {
-            do {
-                units.add(c.getString(1));
-                subUnitsPhoneNumbers.add(c.getString(3));
-            } while (c.moveToNext());
-        }
-        db.close();
+        // Get and Show All Units
+        units = db.getAllUnits();
 
         // Populate List View
         //lv = (ListView) findViewById(R.id.listview_units);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ArrayAdapter<Unit> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_2,
                 units);
 
         //todo: Make the adapter work with simple_list_item_2 (two layers of text!)
-
-        // Link units to the listview
         lv.setAdapter(arrayAdapter);
 
         // When a user selects a unit, call the unit
@@ -73,7 +59,7 @@ public class UnitsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
 
                 // Launch Phone Number
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(subUnitsPhoneNumbers.get(position).toString()));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(units.get(position).toString()));
                 startActivity(i);
             }
         });

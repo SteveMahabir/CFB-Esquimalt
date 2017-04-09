@@ -1,15 +1,13 @@
 package com.example.steve.basedirectory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-// Middle Class used to populate the Initial Database
 class Directory {
 
     /*                  MCDV's                  */
-    public ArrayList<String[]> YJetty = new ArrayList<>();
-    static Catagory YJetty = new Catagory("YJetty", 1);
+    public ArrayList<Unit> YJettyGroup = new ArrayList<>();
+    static Category YJetty = new Category("Y Jetty", 1);
     static String HMCS_BRANDON = "tel:2503637472";
     static String HMCS_NANAIMO = "tel:2503635712";
     static String HMCS_WHITEHORSE = "tel:2503631040";
@@ -18,7 +16,8 @@ class Directory {
     static String HMCS_SASKATOON = "tel:2503637459";
 
     /*                  Health Care             */
-
+    public ArrayList<Unit> HealthCareGroup = new ArrayList<>();
+    static Category HealthCare = new Category("Health Care", 1);
     static String PHARMACY_FRONT_DESK =  "tel:2503634476";
     static String PHARMACY_MIR =  "tel:2503634143";
     static String MEDICAL = "tel:2503635641";
@@ -27,7 +26,8 @@ class Directory {
     static String CDU3 = "tel:2503635646";
 
     /*              Base Services               */
-
+    public ArrayList<Unit> BaseServicesGroup = new ArrayList<>();
+    static Category BaseServices = new Category("Base Services", 1);
     static String QHM = "tel:2503632160";
     static String NRCC_MAIN = "tel:2503634195";
     static String NRCC_PAY = "tel:2503634171";
@@ -36,31 +36,29 @@ class Directory {
     static String CLOTHING_STORES = "tel:2503634947";
 
 
-
-    public ArrayList<String[]> HealthCare = new ArrayList<>();
-    public ArrayList<String[]> BaseServices = new ArrayList<>();
-
+    // Default Constructor
     Directory(){
-        YJetty.add(new String[]{"HMCS BRANDON",HMCS_BRANDON});
-        YJetty.add(new String[]{"HMCS NANAIMO",HMCS_NANAIMO});
-        YJetty.add(new String[]{"HMCS WHITEHORSE",HMCS_WHITEHORSE});
-        YJetty.add(new String[]{"HMCS YELLOWKNIFE",HMCS_YELLOWKNIFE});
-        YJetty.add(new String[]{"HMCS EDMONTON",HMCS_EDMONTON});
-        YJetty.add(new String[]{"HMCS SASKATOON",HMCS_SASKATOON});
 
-        HealthCare.add(new String[]{"Pharmacy Front Desk",PHARMACY_FRONT_DESK});
-        HealthCare.add(new String[]{"Pharmacy (MIR)",PHARMACY_MIR});
-        HealthCare.add(new String[]{"Medical",MEDICAL});
-        HealthCare.add(new String[]{"CDU 1",CDU1});
-        HealthCare.add(new String[]{"CDU 2",CDU2});
-        HealthCare.add(new String[]{"CDU 3",CDU3});
+        YJettyGroup.add(new Unit("HMCS BRANDON", HMCS_BRANDON, R.id.imageBrandon, YJetty));
+        YJettyGroup.add(new Unit("HMCS NANAIMO",HMCS_NANAIMO, R.id.imageNanaimo, YJetty));
+        YJettyGroup.add(new Unit("HMCS WHITEHORSE",HMCS_WHITEHORSE,R.id.imageWhitehorse,YJetty));
+        YJettyGroup.add(new Unit("HMCS YELLOWKNIFE",HMCS_YELLOWKNIFE,R.id.imageYellowknife,YJetty));
+        YJettyGroup.add(new Unit("HMCS EDMONTON",HMCS_EDMONTON,R.id.imageEdmonton,YJetty));
+        YJettyGroup.add(new Unit("HMCS SASKATOON",HMCS_SASKATOON,R.id.imageSaskatoon,YJetty));
 
-        BaseServices.add(new String[]{"QHM",QHM});
-        BaseServices.add(new String[]{"NRCC (Main)",NRCC_MAIN});
-        BaseServices.add(new String[]{"NRCC (Pay)",NRCC_PAY});
-        BaseServices.add(new String[]{"Base Taxi",BASE_TAXI});
-        BaseServices.add(new String[]{"Post Office",POST_OFFICE});
-        BaseServices.add(new String[]{"Clothing Stores",CLOTHING_STORES});
+        HealthCareGroup.add(new Unit("Pharmacy Front Desk",PHARMACY_FRONT_DESK,1, HealthCare));
+        HealthCareGroup.add(new Unit("Pharmacy (MIR)",PHARMACY_MIR,1, HealthCare));
+        HealthCareGroup.add(new Unit("Medical",MEDICAL,1, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 1",CDU1,1, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 2",CDU2,1, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 3",CDU3,1, HealthCare));
+
+        BaseServicesGroup.add(new Unit("QHM",QHM,1,BaseServices));
+        BaseServicesGroup.add(new Unit("NRCC (Main)",NRCC_MAIN,1,BaseServices));
+        BaseServicesGroup.add(new Unit("NRCC (Pay)",NRCC_PAY,1,BaseServices));
+        BaseServicesGroup.add(new Unit("Base Taxi",BASE_TAXI,1,BaseServices));
+        BaseServicesGroup.add(new Unit("Post Office",POST_OFFICE,1,BaseServices));
+        BaseServicesGroup.add(new Unit("Clothing Stores",CLOTHING_STORES,1,BaseServices));
     }
 
 

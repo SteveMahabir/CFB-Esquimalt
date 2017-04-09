@@ -9,176 +9,332 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-public class DirectoryDatabase {
+import java.util.ArrayList;
 
-    static final String KEY_ROWID = "_id";
-    static final String KEY_UNIT = "unit";
-    static final String KEY_SUB_UNIT = "subunit";
-    static final String KEY_PHONE = "phone";
-    static final String TAG = "DBAdapter";
+public class DirectoryDatabase extends SQLiteOpenHelper {
 
-    static final String DATABASE_NAME = "GlobalDatabase";
-    static final String DATABASE_TABLE = "Units";
-    static final int DATABASE_VERSION = 1;
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    /*                                                                                                 */
+    /*                                          Database Setup                                         */
+    /*                                                                                                 */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    // Logcat tag
+    private static final String LOG = "DatabaseHelper";
 
-    static final String DATABASE_CREATE =
-            "create table units (_id integer primary key autoincrement, "
-                    + "unit text not null, subunit text not null, phone text not null);";
+    // Database Version
+    private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_DESTROY =
-            "drop table units;";
+    // Database Name
+    private static final String DATABASE_NAME = "DirectoryDatabase";
 
-    final Context context;
+    // Table Names
+    private static final String TABLE_UNITS = "units";
+    private static final String TABLE_CATEGORIES = "categories";
 
-    DatabaseHelper DBHelper;
-    SQLiteDatabase db;
+    // Common column names
+    private static final String KEY_ID = "id";
 
-    public DirectoryDatabase(Context ctx)
-    {
-        this.context = ctx;
-        DBHelper = new DatabaseHelper(context);
+    // Units Table - column names
+    private static final String KEY_UNIT = "unit";
+    private static final String KEY_PHONE_NO = "phoneno";
+    private static final String KEY_PICTURE_ID = "pictureid";
+    private static final String KEY_UNIT_CATEGORY = "unitcategoryid";
+
+
+    // Categories Table - column names
+    private static final String KEY_CATEGORY = "category";
+    private static final String KEY_CATEGORY_PICTURE_ID = "pictureid";
+
+    // Unit Create Statement
+    private static final String CREATE_TABLE_UNITS = "CREATE TABLE "
+            + TABLE_UNITS + "(" + KEY_ID + " INTEGER PRIMARY KEY, "
+            + KEY_UNIT + " TEXT,"
+            + KEY_PHONE_NO + " TEXT,"
+            + KEY_PICTURE_ID + " INTEGER, "
+            + KEY_UNIT_CATEGORY + " INTEGER" + ")";
+
+    // Category Create Statement
+    private static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE "
+            + TABLE_CATEGORIES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_CATEGORY + " TEXT,"
+            + KEY_CATEGORY_PICTURE_ID + "INTEGER" + ")";
+
+
+    // Constructor and Courtesy Call
+    public DirectoryDatabase(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private static class DatabaseHelper extends SQLiteOpenHelper
-    {
-        DatabaseHelper(Context context)
-        {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+        // creating required tables
+        db.execSQL(CREATE_TABLE_UNITS);
+        db.execSQL(CREATE_TABLE_CATEGORIES);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_UNITS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+
+        // create new tables
+        onCreate(db);
+    }
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    /*                                                                                                 */
+    /*                                          Units CRUD                                             */
+    /*                                                                                                 */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+    // Create a Unit
+    public long insertUnit(Unit unit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_UNIT, unit.UnitName);
+        values.put(KEY_PHONE_NO, unit.UnitTelephone);
+        values.put(KEY_PICTURE_ID, unit.UnitPictureId);
+        values.put(KEY_UNIT_CATEGORY, unit.UnitType.CategoryId);
+
+        // insert row
+        long unit_id = db.insert(TABLE_UNITS, null, values);
+
+        return unit_id;
+    }
+
+    public Unit getUnitById(long unit_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_UNITS + " WHERE "
+                + KEY_ID + " = " + unit_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Category cat = getCategoryById(
+                c.getInt(c.getColumnIndex(KEY_UNIT_CATEGORY))
+        );
+
+        Unit unit = new Unit(
+                c.getColumnIndex(KEY_ID),
+                c.getString(c.getColumnIndex(KEY_UNIT)),
+                c.getString(c.getColumnIndex(KEY_PHONE_NO)),
+                c.getColumnIndex(KEY_PICTURE_ID),
+                cat
+        );
+
+        return unit;
+    }
+
+    public Unit getUnitByName(String unit_name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_UNITS + " WHERE "
+                + KEY_UNIT + " = " + unit_name;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Category cat = getCategoryById(
+                c.getInt(c.getColumnIndex(KEY_UNIT_CATEGORY))
+        );
+
+        Unit unit = new Unit(
+                c.getColumnIndex(KEY_ID),
+                c.getString(c.getColumnIndex(KEY_UNIT)),
+                c.getString(c.getColumnIndex(KEY_PHONE_NO)),
+                c.getColumnIndex(KEY_PICTURE_ID),
+                cat
+        );
+
+        return unit;
+    }
+
+    public ArrayList<Unit> getAllUnits() {
+        ArrayList<Unit> units = new ArrayList<Unit>();
+        String selectQuery = "SELECT  * FROM " + TABLE_UNITS;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+
+                Category category = getCategoryById(c.getColumnIndex(KEY_CATEGORY));
+
+                Unit unit = new Unit(
+                        c.getInt(c.getColumnIndex(KEY_ID)),
+                        c.getString(c.getColumnIndex(KEY_UNIT)),
+                        c.getString(c.getColumnIndex(KEY_PHONE_NO)),
+                        c.getInt(c.getColumnIndex(KEY_PICTURE_ID)),
+                        category
+                );
+
+                units.add(unit);
+            } while (c.moveToNext());
         }
 
-        @Override
-        public void onCreate(SQLiteDatabase db)
-        {
-            try {
-                db.execSQL(DATABASE_DESTROY);
-                db.execSQL(DATABASE_CREATE);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        return units;
+    }
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    /*                                                                                                 */
+    /*                                  Catagories CRUD                                                */
+    /*                                                                                                 */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+    public long insertCategory(Category category) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY, category.CategoryType);
+        values.put(KEY_CATEGORY_PICTURE_ID, category.CategoryPicutreId);
+
+        // insert row
+        long category_id = db.insert(TABLE_CATEGORIES, null, values);
+
+        return category_id;
+    }
+
+    public Category getCategoryById(long category_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORIES + " WHERE "
+                + KEY_ID + " = " + category_id;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Category category = new Category(
+                c.getInt(c.getColumnIndex(KEY_ID)),
+                c.getString(c.getColumnIndex(KEY_CATEGORY)),
+                c.getInt(c.getColumnIndex(KEY_CATEGORY_PICTURE_ID))
+                );
+
+        return category;
+    }
+
+    public Category getCategoryByName(String category_name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORIES + " WHERE "
+                + KEY_CATEGORY + " = " + category_name;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Category category = new Category(
+                c.getInt(c.getColumnIndex(KEY_ID)),
+                c.getString(c.getColumnIndex(KEY_CATEGORY)),
+                c.getInt(c.getColumnIndex(KEY_CATEGORY_PICTURE_ID))
+        );
+
+        return category;
+    }
+
+    public ArrayList<Category> getAllCategories() {
+        ArrayList<Category> categories = new ArrayList<Category>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CATEGORIES;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Category cat = new Category(
+                        c.getInt(c.getColumnIndex(KEY_ID)),
+                        c.getString(c.getColumnIndex(KEY_CATEGORY)),
+                        c.getInt(c.getColumnIndex(KEY_CATEGORY_PICTURE_ID))
+                );
+                // adding to tags list
+                categories.add(cat);
+            } while (c.moveToNext());
+        }
+        return categories;
+    }
+
+    public ArrayList<Unit> getAllUnitsByCategory(String category_name) {
+        ArrayList<Unit> units = new ArrayList<Unit>();
+
+        Category category = getCategoryByName(category_name);
+
+        String selectQuery = "SELECT  * FROM " + TABLE_UNITS + " tu, " + TABLE_CATEGORIES + " tc, "
+                + "WHERE tu." + KEY_UNIT_CATEGORY + " = " + category.CategoryId;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+
+                Category cat = getCategoryById(c.getColumnIndex(KEY_CATEGORY));
+
+                Unit unit = new Unit(
+                        c.getInt(c.getColumnIndex(KEY_ID)),
+                        c.getString(c.getColumnIndex(KEY_UNIT)),
+                        c.getString(c.getColumnIndex(KEY_PHONE_NO)),
+                        c.getInt(c.getColumnIndex(KEY_PICTURE_ID)),
+                        cat
+                );
+
+                units.add(unit);
+            } while (c.moveToNext());
         }
 
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-        {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS contacts");
-            onCreate(db);
-        }
+        return units;
     }
 
-    //---opens the database---
-    public DirectoryDatabase open() throws SQLException
-    {
-        db = DBHelper.getWritableDatabase();
-        return this;
-    }
-
-    //---closes the database---
-    public void close()
-    {
-        DBHelper.close();
-    }
-
-    //---insert a contact into the database---
-    public long insertUnit(String unit, String subunit, String phone)
-    {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_UNIT, unit);
-        initialValues.put(KEY_SUB_UNIT, subunit);
-        initialValues.put(KEY_PHONE, phone);
-        return db.insert(DATABASE_TABLE, null, initialValues);
-    }
-
-    //---deletes a particular contact---
-    public boolean deleteContact(long rowId)
-    {
-        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
-    //---retrieves all the units---
-    public Cursor getAllUnits()
-    {
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_UNIT,
-                KEY_SUB_UNIT, KEY_PHONE}, null, null, null, null, null);
-    }
-
-    //---retrieves all the subunits---
-    public Cursor getAllSubUnits()
-    {
-        return db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_UNIT,
-                KEY_SUB_UNIT, KEY_PHONE}, null, null, KEY_SUB_UNIT, null, null, null);
-
-    }
-
-    //--- retrieves all the units based on SubUnits ---
-    public Cursor getAllSubunitsByUnits(String units)
-    {
-        try {
-
-            //
-
-            Cursor mCursor =
-                    db.query(DATABASE_TABLE, new String[]{KEY_ROWID,
-                                    KEY_UNIT, KEY_SUB_UNIT, KEY_PHONE}, KEY_SUB_UNIT + "= '" + units + "'", null,
-                            null, null, null, null);
-
-            if (mCursor != null) {
-                mCursor.moveToFirst();
-            }
-            return mCursor;
-        }
-        catch(Exception e){
-            Toast.makeText(this.context, "Error: " + e.toString(), Toast.LENGTH_LONG);
-        }
-        return null;
-    }
-
-    //---retrieves a particular contact---
-    public Cursor getUnit(String unit) throws SQLException
-    {
-        Cursor mCursor =
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                                KEY_UNIT, KEY_SUB_UNIT, KEY_PHONE}, KEY_UNIT + "=" + unit, null,
-                        null, null, null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-    }
-
-    //---updates a contact---
-    public boolean updateUnit(long rowId, String unit, String subunit, String phone)
-    {
-        ContentValues args = new ContentValues();
-        args.put(KEY_UNIT, unit);
-        args.put(KEY_SUB_UNIT, subunit);
-        args.put(KEY_PHONE, phone);
-        return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
-
-    /*
-                Global Directory List
-     */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    /*                                                                                                 */
+    /*                                  Populate the Database                                          */
+    /*                                                                                                 */
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
     public void Populate(){
-        open();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DELETE FROM units");
+        db.execSQL("DELETE FROM categories");
 
         Directory dir = new Directory();
 
-        for (String[] yjetty : dir.YJetty ) {
-            this.insertUnit(yjetty[0], "Y-Jetty", yjetty[1] );
+        for (Unit yjetty : dir.YJettyGroup ) {
+            this.insertUnit(yjetty);
         }
 
-        for (String[] health : dir.HealthCare ) {
-            this.insertUnit(health[0], "Health Care", health[1] );
+        for (Unit health : dir.HealthCareGroup ) {
+            this.insertUnit(health);
         }
 
-        for (String[] base : dir.BaseServices ) {
-            this.insertUnit(base[0], "Base Services", base[1] );
+        for (Unit base : dir.BaseServicesGroup ) {
+            this.insertUnit(base);
         }
 
         close();
