@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Steve on 29/03/2017.
  */
 
-class PhoneNumbers {
+class Directory {
 
     /*                  MCDV's                  */
     static String HMCS_BRANDON = "tel:2503637472";
@@ -38,7 +38,7 @@ class PhoneNumbers {
     public ArrayList<String[]> HealthCare = new ArrayList<>();
     public ArrayList<String[]> BaseServices = new ArrayList<>();
 
-    PhoneNumbers(){
+    Directory(){
         YJetty.add(new String[]{"HMCS BRANDON",HMCS_BRANDON});
         YJetty.add(new String[]{"HMCS NANAIMO",HMCS_NANAIMO});
         YJetty.add(new String[]{"HMCS WHITEHORSE",HMCS_WHITEHORSE});

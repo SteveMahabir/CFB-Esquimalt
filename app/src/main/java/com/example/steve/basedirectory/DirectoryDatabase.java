@@ -167,17 +167,17 @@ public class DirectoryDatabase {
 
         db.execSQL("DELETE FROM units");
 
-        PhoneNumbers p = new PhoneNumbers();
+        Directory dir = new Directory();
 
-        for (String[] yjetty : p.YJetty ) {
+        for (String[] yjetty : dir.YJetty ) {
             this.insertUnit(yjetty[0], "Y-Jetty", yjetty[1] );
         }
 
-        for (String[] health : p.HealthCare ) {
+        for (String[] health : dir.HealthCare ) {
             this.insertUnit(health[0], "Health Care", health[1] );
         }
 
-        for (String[] base : p.BaseServices ) {
+        for (String[] base : dir.BaseServices ) {
             this.insertUnit(base[0], "Base Services", base[1] );
         }
 

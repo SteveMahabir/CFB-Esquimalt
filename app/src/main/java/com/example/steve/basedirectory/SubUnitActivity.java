@@ -54,7 +54,7 @@ public class SubUnitActivity extends AppCompatActivity {
         db.close();
 
         // Populate List View
-        lv = (ListView) findViewById(R.id.listview_units);
+        //lv = (ListView) findViewById(R.id.listview_units);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,

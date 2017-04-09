@@ -18,7 +18,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_BRANDON));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_BRANDON));
                 startActivity(i);
             }
         });
@@ -27,7 +27,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_NANAIMO));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_NANAIMO));
                 startActivity(i);
             }
         });
@@ -38,7 +38,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_WHITEHORSE));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_WHITEHORSE));
                 startActivity(i);
             }
         });
@@ -49,7 +49,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_YELLOWKNIFE));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_YELLOWKNIFE));
                 startActivity(i);
             }
         });
@@ -60,7 +60,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_EDMONTON));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_EDMONTON));
                 startActivity(i);
             }
         });
@@ -71,7 +71,7 @@ public class YJetty extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(PhoneNumbers.HMCS_SASKATOON));
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse(Directory.HMCS_SASKATOON));
                 startActivity(i);
             }
         });
