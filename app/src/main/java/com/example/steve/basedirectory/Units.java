@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SubUnitActivity extends AppCompatActivity {
+public class Units extends AppCompatActivity {
 
     // Data Members
     ListView lv;
@@ -26,7 +26,7 @@ public class SubUnitActivity extends AppCompatActivity {
 
         // Courtesy Call
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_unit);
+        setContentView(R.layout.activity_units);
 
         // Initialize
         db = new DirectoryDatabase(this);

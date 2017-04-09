@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-public class main extends AppCompatActivity {
+public class Catagories extends AppCompatActivity {
 
     // Data Members
     ListView lv;
@@ -34,7 +34,7 @@ public class main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Courtesy Call
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_catagories);
 
         // Initialize
         db = new DirectoryDatabase(this);
@@ -120,7 +120,7 @@ public class main extends AppCompatActivity {
                 editor.putString("unit", lv.getItemAtPosition(position).toString());
                 editor.commit();
 
-                Intent appInfo = new Intent(main.this, SubUnitActivity.class);
+                Intent appInfo = new Intent(Catagories.this, Units.class);
                 startActivity(appInfo);
 
             }
