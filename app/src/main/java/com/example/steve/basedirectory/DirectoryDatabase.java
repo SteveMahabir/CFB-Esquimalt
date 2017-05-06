@@ -57,7 +57,7 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CATEGORIES = "CREATE TABLE "
             + TABLE_CATEGORIES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_CATEGORY + " TEXT,"
-            + KEY_CATEGORY_PICTURE_ID + "INTEGER" + ")";
+            + KEY_CATEGORY_PICTURE_ID + " INTEGER" + ")";
 
 
     // Constructor and Courtesy Call
@@ -71,6 +71,12 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_UNITS);
         db.execSQL(CREATE_TABLE_CATEGORIES);
+    }
+
+    public void closeDatabase() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
 
     @Override
@@ -320,10 +326,23 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
     public void Populate(){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.execSQL("DELETE FROM units");
-        db.execSQL("DELETE FROM categories");
+        onUpgrade(db, 1,1);
 
         Directory dir = new Directory();
+
+        Category YJetty = new Category("Y Jetty", R.drawable.brandon);
+        Category HealthCare = new Category("Health Care", R.drawable.edmonton);
+        Category BaseServices = new Category("Base Services", R.drawable.nanaimo);
+
+        YJetty.CategoryId = (int)insertCategory(YJetty);
+        HealthCare.CategoryId = (int)insertCategory(HealthCare);
+        BaseServices.CategoryId = (int)insertCategory(BaseServices);
+
+        dir.YJetty = YJetty;
+        dir.HealthCare = HealthCare;
+        dir.BaseServices = BaseServices;
+
+        dir.SetupData();
 
         for (Unit yjetty : dir.YJettyGroup ) {
             this.insertUnit(yjetty);

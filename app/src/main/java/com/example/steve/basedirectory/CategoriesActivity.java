@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,16 +29,33 @@ public class CategoriesActivity extends AppCompatActivity {
     // Data Members
     ListView lv;
     private DirectoryDatabase db;
-
+    ArrayList<Category> categories;
 
     // Default Constructor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         // Courtesy Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catagories);
 
-        // Initialize
+        InitializeDatabase();
+
+        // Categories
+
+
+        // Recycler View Setup
+        RecyclerView rv = (RecyclerView)findViewById(R.id.recViewCategory);
+        rv.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
+        // Custom Adapter
+        RecycleViewAdapterCategory adapter = new RecycleViewAdapterCategory(categories);
+        rv.setAdapter(adapter);
+    }
+
+    private void InitializeDatabase() {
         db = new DirectoryDatabase(this);
 
         // get the existing database file or from assets folder if doesn't exist
@@ -48,22 +67,26 @@ public class CategoriesActivity extends AppCompatActivity {
                 f.mkdirs();
                 f.createNewFile();
 
-                //---copy the db from the assets folder into
-                // the databases folder---
+                //---copy the db from the assets folder into the databases folder
                 CopyDB(getBaseContext().getAssets().open("mydb"),
                         new FileOutputStream(destPath + "/MyDB"));
             }
 
-            SetupDatabase();
+            // SetupDatabase();
+            db.Populate();
+
+            // Get all the Categories
+            categories = db.getAllCategories();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
 
     // Needed for Database Deposit
     public void CopyDB(InputStream inputStream,
@@ -78,7 +101,6 @@ public class CategoriesActivity extends AppCompatActivity {
         outputStream.close();
     }
 
-
     // Populate all the rows and register the onClickListener
     public void SetupDatabase(){
 
@@ -86,10 +108,10 @@ public class CategoriesActivity extends AppCompatActivity {
         db.Populate();
 
         // Get and Show All SubUnits
-        ArrayList<Category> categories = db.getAllCategories();
+        //ArrayList<Category> categories = db.getAllCategories();
 
         // Populate List View
-        lv = (ListView) findViewById(R.id.listView_Directory);
+        //lv = (ListView) findViewById(R.id.listView_Directory);
 
         ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<>(
                 this,
