@@ -1,8 +1,10 @@
 package com.example.steve.basedirectory;
 
 
+import java.io.Serializable;
+
 // Used to hold a single unit
-public class Unit {
+public class Unit implements Serializable {
 
     public int UnitId;
     public String UnitName;

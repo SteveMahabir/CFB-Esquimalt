@@ -1,7 +1,9 @@
 package com.example.steve.basedirectory;
 
+import java.io.Serializable;
+
 // Used to hold a single Catagory
-public class Category {
+public class Category implements Serializable {
     public int CategoryId;
     public String CategoryType;
     public int CategoryPicutreId;

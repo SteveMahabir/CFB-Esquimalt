@@ -19,13 +19,13 @@ public class RecycleViewAdapterCategory extends RecyclerView.Adapter<RecycleView
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-        CardView cv;
+        CardView categoryCardView;
         TextView categoryName;
         ImageView categoryPhoto;
 
         CategoryViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
+            categoryCardView = (CardView) itemView.findViewById(R.id.card_view);
             categoryPhoto = (ImageView) itemView.findViewById(R.id.cv_image);
             categoryName = (TextView) itemView.findViewById(R.id.cv_text_main);
         }
@@ -34,7 +34,7 @@ public class RecycleViewAdapterCategory extends RecyclerView.Adapter<RecycleView
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
-        v = (RecyclerView) v.findViewById(android.R.id.cv);
+        v.setOnClickListener(CategoriesActivity.categoryClickListener);
         CategoryViewHolder cvh = new CategoryViewHolder(v);
         return cvh;
     }

@@ -9,9 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DirectoryDatabase extends SQLiteOpenHelper {
+public class DirectoryDatabase extends SQLiteOpenHelper implements Serializable {
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     /*                                                                                                 */
@@ -242,7 +243,7 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_CATEGORIES + " WHERE "
-                + KEY_CATEGORY + " = " + category_name;
+                + KEY_CATEGORY + " = '" + category_name + "'";
 
         Log.e(LOG, selectQuery);
 
@@ -289,8 +290,8 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
 
         Category category = getCategoryByName(category_name);
 
-        String selectQuery = "SELECT  * FROM " + TABLE_UNITS + " tu, " + TABLE_CATEGORIES + " tc, "
-                + "WHERE tu." + KEY_UNIT_CATEGORY + " = " + category.CategoryId;
+        String selectQuery = "SELECT * FROM " + TABLE_UNITS +
+                " WHERE " + KEY_UNIT_CATEGORY + " = " + category.CategoryId;
 
         Log.e(LOG, selectQuery);
 
@@ -300,14 +301,12 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
 
-                Category cat = getCategoryById(c.getColumnIndex(KEY_CATEGORY));
-
                 Unit unit = new Unit(
                         c.getInt(c.getColumnIndex(KEY_ID)),
                         c.getString(c.getColumnIndex(KEY_UNIT)),
                         c.getString(c.getColumnIndex(KEY_PHONE_NO)),
                         c.getInt(c.getColumnIndex(KEY_PICTURE_ID)),
-                        cat
+                        category
                 );
 
                 units.add(unit);
@@ -330,9 +329,9 @@ public class DirectoryDatabase extends SQLiteOpenHelper {
 
         Directory dir = new Directory();
 
-        Category YJetty = new Category("Y Jetty", R.drawable.brandon);
-        Category HealthCare = new Category("Health Care", R.drawable.edmonton);
-        Category BaseServices = new Category("Base Services", R.drawable.nanaimo);
+        Category YJetty = new Category("Y Jetty", R.drawable.mcdvs);
+        Category HealthCare = new Category("Health Care", R.drawable.medical_service);
+        Category BaseServices = new Category("Base Services", R.drawable.cfb_esquimalt);
 
         YJetty.CategoryId = (int)insertCategory(YJetty);
         HealthCare.CategoryId = (int)insertCategory(HealthCare);

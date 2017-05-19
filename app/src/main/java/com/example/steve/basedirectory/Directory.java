@@ -46,26 +46,26 @@ class Directory {
     }
 
     public void SetupData() {
-        YJettyGroup.add(new Unit("HMCS BRANDON", HMCS_BRANDON, R.id.imageBrandon, YJetty));
-        YJettyGroup.add(new Unit("HMCS NANAIMO",HMCS_NANAIMO, R.id.imageNanaimo, YJetty));
-        YJettyGroup.add(new Unit("HMCS WHITEHORSE",HMCS_WHITEHORSE,R.id.imageWhitehorse,YJetty));
-        YJettyGroup.add(new Unit("HMCS YELLOWKNIFE",HMCS_YELLOWKNIFE,R.id.imageYellowknife,YJetty));
-        YJettyGroup.add(new Unit("HMCS EDMONTON",HMCS_EDMONTON,R.id.imageEdmonton,YJetty));
-        YJettyGroup.add(new Unit("HMCS SASKATOON",HMCS_SASKATOON,R.id.imageSaskatoon,YJetty));
+        YJettyGroup.add(new Unit("HMCS BRANDON", HMCS_BRANDON, R.drawable.brandon, YJetty));
+        YJettyGroup.add(new Unit("HMCS NANAIMO",HMCS_NANAIMO, R.drawable.nanaimo, YJetty));
+        YJettyGroup.add(new Unit("HMCS WHITEHORSE",HMCS_WHITEHORSE,R.drawable.whitehorse,YJetty));
+        YJettyGroup.add(new Unit("HMCS YELLOWKNIFE",HMCS_YELLOWKNIFE,R.drawable.yellowknife,YJetty));
+        YJettyGroup.add(new Unit("HMCS EDMONTON",HMCS_EDMONTON,R.drawable.edmonton,YJetty));
+        YJettyGroup.add(new Unit("HMCS SASKATOON",HMCS_SASKATOON,R.drawable.saskatoon,YJetty));
 
-        HealthCareGroup.add(new Unit("Pharmacy Front Desk",PHARMACY_FRONT_DESK,1, HealthCare));
-        HealthCareGroup.add(new Unit("Pharmacy (MIR)",PHARMACY_MIR,1, HealthCare));
-        HealthCareGroup.add(new Unit("Medical",MEDICAL,1, HealthCare));
-        HealthCareGroup.add(new Unit("CDU 1",CDU1,1, HealthCare));
-        HealthCareGroup.add(new Unit("CDU 2",CDU2,1, HealthCare));
-        HealthCareGroup.add(new Unit("CDU 3",CDU3,1, HealthCare));
+        HealthCareGroup.add(new Unit("Pharmacy Front Desk",PHARMACY_FRONT_DESK,R.drawable.medical_service, HealthCare));
+        HealthCareGroup.add(new Unit("Pharmacy (MIR)",PHARMACY_MIR,R.drawable.medical_service, HealthCare));
+        HealthCareGroup.add(new Unit("Medical",MEDICAL,R.drawable.medical_service, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 1",CDU1,R.drawable.medical_service, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 2",CDU2,R.drawable.medical_service, HealthCare));
+        HealthCareGroup.add(new Unit("CDU 3",CDU3,R.drawable.medical_service, HealthCare));
 
-        BaseServicesGroup.add(new Unit("QHM",QHM,1,BaseServices));
-        BaseServicesGroup.add(new Unit("NRCC (Main)",NRCC_MAIN,1,BaseServices));
-        BaseServicesGroup.add(new Unit("NRCC (Pay)",NRCC_PAY,1,BaseServices));
-        BaseServicesGroup.add(new Unit("Base Taxi",BASE_TAXI,1,BaseServices));
-        BaseServicesGroup.add(new Unit("Post Office",POST_OFFICE,1,BaseServices));
-        BaseServicesGroup.add(new Unit("Clothing Stores",CLOTHING_STORES,1,BaseServices));
+        BaseServicesGroup.add(new Unit("QHM",QHM,R.drawable.cfb_esquimalt,BaseServices));
+        BaseServicesGroup.add(new Unit("NRCC (Main)",NRCC_MAIN,R.drawable.cfb_esquimalt,BaseServices));
+        BaseServicesGroup.add(new Unit("NRCC (Pay)",NRCC_PAY,R.drawable.cfb_esquimalt,BaseServices));
+        BaseServicesGroup.add(new Unit("Base Taxi",BASE_TAXI,R.drawable.cfb_esquimalt,BaseServices));
+        BaseServicesGroup.add(new Unit("Post Office",POST_OFFICE,R.drawable.cfb_esquimalt,BaseServices));
+        BaseServicesGroup.add(new Unit("Clothing Stores",CLOTHING_STORES,R.drawable.cfb_esquimalt,BaseServices));
     }
 
 

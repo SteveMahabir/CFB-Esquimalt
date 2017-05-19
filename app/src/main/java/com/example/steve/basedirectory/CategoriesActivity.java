@@ -22,14 +22,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CategoriesActivity extends AppCompatActivity {
 
     // Data Members
     ListView lv;
-    private DirectoryDatabase db;
-    ArrayList<Category> categories;
+    static DirectoryDatabase db;
+    static ArrayList<Category> categories;
+    static View.OnClickListener categoryClickListener;
+    private static RecyclerView rv;
 
     // Default Constructor
     @Override
@@ -38,14 +41,11 @@ public class CategoriesActivity extends AppCompatActivity {
         // Courtesy Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catagories);
-
+        categoryClickListener = new CategoryClickListener(this);
         InitializeDatabase();
 
-        // Categories
-
-
         // Recycler View Setup
-        RecyclerView rv = (RecyclerView)findViewById(R.id.recViewCategory);
+        rv = (RecyclerView)findViewById(R.id.recViewCategory);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
@@ -101,42 +101,45 @@ public class CategoriesActivity extends AppCompatActivity {
         outputStream.close();
     }
 
-    // Populate all the rows and register the onClickListener
-    public void SetupDatabase(){
 
-        // Populate the Database
-        db.Populate();
 
-        // Get and Show All SubUnits
-        //ArrayList<Category> categories = db.getAllCategories();
+    public static class CategoryClickListener implements View.OnClickListener {
 
-        // Populate List View
-        //lv = (ListView) findViewById(R.id.listView_Directory);
+        private final Context context;
 
-        ArrayAdapter<Category> arrayAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                categories);
+        private CategoryClickListener(Context context) {
+            this.context = context;
+        }
 
-        lv.setAdapter(arrayAdapter);
+        @Override
+        public void onClick(View v) {
+            loadUnits(v);
+            //Toast.makeText(v.getContext(), "Hello toast!!", Toast.LENGTH_LONG).show();
+        }
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        private void loadUnits(View v) {
+            int selectedItemPosition = rv.getChildPosition(v);
+            RecyclerView.ViewHolder viewHolder = rv.findViewHolderForPosition(selectedItemPosition);
 
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+            Category c = categories.get(viewHolder.getAdapterPosition());
 
-                // Commit Shared Preferences
-                SharedPreferences sharedData = getSharedPreferences("default", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedData.edit();
+            // Commit Shared Preferences
+            SharedPreferences sharedData = context.getSharedPreferences("default", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedData.edit();
 
-                editor.putString("unit", lv.getItemAtPosition(position).toString());
-                editor.commit();
+            editor.putString("category", c.CategoryType);
+            editor.commit();
 
-                Intent appInfo = new Intent(CategoriesActivity.this, UnitsActivity.class);
-                startActivity(appInfo);
+            Intent appInfo = new Intent(context, UnitsActivity.class);
+            db.close();
+            db.closeDatabase();
+            appInfo.putExtra("database", db);
+            context.startActivity(appInfo);
 
-            }
-        });
+
+        }
     }
+
+
 
 }
